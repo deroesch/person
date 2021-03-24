@@ -1,25 +1,17 @@
 package org.deroesch.sample;
 
 import org.deroesch.models.USPhoneNumber;
-import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+
+import static org.junit.jupiter.api.Assertions.assertEquals;
 
 class USPhoneNumberTest {
 
-	@BeforeEach
-	void setUp() throws Exception {
-	}
-
 	@Test
 	void testToString() {
-
-		USPhoneNumber a = new USPhoneNumber("123", "456", "7890");
-		USPhoneNumber b = new USPhoneNumber("123", "456", "7890", "");
-		USPhoneNumber c = new USPhoneNumber("123", "456", "7890", "1234");
-
-		System.out.println(a.toString());
-		System.out.println(b.toString());
-		System.out.println(c.toString());
+		assertEquals("+1 (123) 456-7890", new USPhoneNumber("123", "456", "7890").toString());
+		assertEquals("+1 (123) 456-7890", new USPhoneNumber("123", "456", "7890", "").toString());
+		assertEquals("+1 (123) 456-7890 ext. 1234", new USPhoneNumber("123", "456", "7890", "1234").toString());
 	}
 
 }
