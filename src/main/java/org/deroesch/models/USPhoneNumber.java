@@ -1,6 +1,8 @@
 package org.deroesch.models;
 
 import java.util.Objects;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 public class USPhoneNumber implements CanBeEmpty {
 
@@ -123,4 +125,29 @@ public class USPhoneNumber implements CanBeEmpty {
 	private String extension = "";
 	private boolean isEmpty = true;
 
+	private final String regex = "/(?=(?:^(?:\\+?1\\s*(?:[.-]\\s*)?)?(?!(?:(?:.*\\(.*)|(?:.*\\).*)))(?:[2-9]1[02-9]|[2-9][02-8]1|[2-9][02-8][02-9]))|(?:.*\\((?:[2-9]1[02-9]|[2-9][02-8]1|[2-9][02-8][02-9])\\).*))(?:\\+?1\\s*(?:[.-]\\s*)?)?(?:\\(?([2-9]1[02-9]|[2-9][02-8]1|[2-9][02-8][02-9])\\)?)\\s*(?:[.-]\\s*)?([2-9]1[02-9]|[2-9][02-9]1|[2-9][02-9]{2})\\s*(?:[.-]\\s*)?([0-9]{4})(?:\\s*(?:#|x\\.?|ext\\.?|extension)\\s*(\\d{1,15}))?$/gm";
+
+	private USPhoneNumber parse(String string) {
+
+		final Pattern pattern = Pattern.compile(regex, Pattern.MULTILINE);
+		final Matcher matcher = pattern.matcher(string);
+		final String[] parts = new String[4];
+
+		boolean found = false;
+		while (matcher.find()) {
+			found = true;
+			for (int i = 1; i <= matcher.groupCount(); i++) {
+				parts[i - 1] = matcher.group(i);
+			}
+
+			// Might be null. Fix it to "".
+			parts[3] = nullToEmpty(parts[3]);
+		}
+
+		return found ? new USPhoneNumber(parts[0], parts[1], parts[2], parts[3]) : USPhoneNumber.EMPTY_PHONE;
+	}
+
+	private String nullToEmpty(String s) {
+		return null == s ? "" : s;
+	}
 }
