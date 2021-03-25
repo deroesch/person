@@ -136,13 +136,12 @@ public class USPhoneNumber implements Emptyable {
 		boolean found = false;
 		while (matcher.find()) {
 			found = true;
-			for (int i = 1; i <= matcher.groupCount(); i++) {
+			for (int i = 1; i <= matcher.groupCount(); i++)
 				parts[i - 1] = matcher.group(i);
-			}
-
-			// Might be null. Fix it to "".
-			parts[3] = nullToEmpty(parts[3]);
 		}
+
+		// Might be null. Fix it to "".
+		parts[3] = nullToEmpty(parts[3]);
 
 		return found ? new USPhoneNumber(parts[0], parts[1], parts[2], parts[3]) : USPhoneNumber.EMPTY_PHONE;
 	}
