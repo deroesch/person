@@ -129,7 +129,7 @@ public class USPhoneNumber implements Emptyable {
 
 	public static USPhoneNumber parse(final String string) {
 
-		final Pattern pattern = Pattern.compile(regex);
+		final Pattern pattern = Pattern.compile(regex, Pattern.MULTILINE);
 		final Matcher matcher = pattern.matcher(string);
 		final String[] parts = new String[4];
 
