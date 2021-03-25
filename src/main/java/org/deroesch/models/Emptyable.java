@@ -1,6 +1,6 @@
 package org.deroesch.models;
 
-public interface CanBeEmpty {
+public interface Emptyable {
 
 	boolean isEmpty();
 

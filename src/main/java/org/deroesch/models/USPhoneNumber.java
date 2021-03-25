@@ -4,7 +4,7 @@ import java.util.Objects;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-public class USPhoneNumber implements CanBeEmpty {
+public class USPhoneNumber implements Emptyable {
 
 	public static final USPhoneNumber EMPTY_PHONE = new USPhoneNumber();
 
@@ -19,7 +19,7 @@ public class USPhoneNumber implements CanBeEmpty {
 	 * @param areaCode
 	 * @param prefix
 	 * @param suffix
-	 * @param extension
+	 * @param tenPlus4
 	 */
 	public USPhoneNumber(String areaCode, String prefix, String suffix) {
 		this(areaCode, prefix, suffix, "");
@@ -29,7 +29,7 @@ public class USPhoneNumber implements CanBeEmpty {
 	 * @param areaCode
 	 * @param prefix
 	 * @param suffix
-	 * @param extension
+	 * @param tenPlus4
 	 */
 	public USPhoneNumber(String areaCode, String prefix, String suffix, String extension) {
 		super();
@@ -69,7 +69,7 @@ public class USPhoneNumber implements CanBeEmpty {
 	}
 
 	/**
-	 * @return the extension
+	 * @return the tenPlus4
 	 */
 	public String getExtension() {
 		return extension;
@@ -125,11 +125,11 @@ public class USPhoneNumber implements CanBeEmpty {
 	private String extension = "";
 	private boolean isEmpty = true;
 
-	private final String regex = "/(?=(?:^(?:\\+?1\\s*(?:[.-]\\s*)?)?(?!(?:(?:.*\\(.*)|(?:.*\\).*)))(?:[2-9]1[02-9]|[2-9][02-8]1|[2-9][02-8][02-9]))|(?:.*\\((?:[2-9]1[02-9]|[2-9][02-8]1|[2-9][02-8][02-9])\\).*))(?:\\+?1\\s*(?:[.-]\\s*)?)?(?:\\(?([2-9]1[02-9]|[2-9][02-8]1|[2-9][02-8][02-9])\\)?)\\s*(?:[.-]\\s*)?([2-9]1[02-9]|[2-9][02-9]1|[2-9][02-9]{2})\\s*(?:[.-]\\s*)?([0-9]{4})(?:\\s*(?:#|x\\.?|ext\\.?|extension)\\s*(\\d{1,15}))?$/gm";
+	private static final String regex = "/(?=(?:^(?:\\+?1\\s*(?:[.-]\\s*)?)?(?!(?:(?:.*\\(.*)|(?:.*\\).*)))(?:[2-9]1[02-9]|[2-9][02-8]1|[2-9][02-8][02-9]))|(?:.*\\((?:[2-9]1[02-9]|[2-9][02-8]1|[2-9][02-8][02-9])\\).*))(?:\\+?1\\s*(?:[.-]\\s*)?)?(?:\\(?([2-9]1[02-9]|[2-9][02-8]1|[2-9][02-8][02-9])\\)?)\\s*(?:[.-]\\s*)?([2-9]1[02-9]|[2-9][02-9]1|[2-9][02-9]{2})\\s*(?:[.-]\\s*)?([0-9]{4})(?:\\s*(?:#|x\\.?|ext\\.?|tenPlus4)\\s*(\\d{1,15}))?$/gm";
 
-	private USPhoneNumber parse(String string) {
+	public static USPhoneNumber parse(final String string) {
 
-		final Pattern pattern = Pattern.compile(regex, Pattern.MULTILINE);
+		final Pattern pattern = Pattern.compile(regex);
 		final Matcher matcher = pattern.matcher(string);
 		final String[] parts = new String[4];
 
@@ -147,7 +147,7 @@ public class USPhoneNumber implements CanBeEmpty {
 		return found ? new USPhoneNumber(parts[0], parts[1], parts[2], parts[3]) : USPhoneNumber.EMPTY_PHONE;
 	}
 
-	private String nullToEmpty(String s) {
+	private static final String nullToEmpty(String s) {
 		return null == s ? "" : s;
 	}
 }

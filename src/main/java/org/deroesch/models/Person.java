@@ -5,7 +5,7 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.Objects;
 
-public class Person implements CanBeEmpty {
+public class Person implements Emptyable {
 
 	public static final Person EMPTY_PERSON = new Person();
 

@@ -2,7 +2,7 @@ package org.deroesch.models;
 
 import java.util.Objects;
 
-public class EmailAddress implements CanBeEmpty {
+public class EmailAddress implements Emptyable {
 	
 	public static final EmailAddress EMPTY_EMAIL = new EmailAddress();
 

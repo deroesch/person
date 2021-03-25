@@ -2,7 +2,7 @@ package org.deroesch.models;
 
 import java.util.Objects;
 
-public class StreetAddress implements CanBeEmpty {
+public class StreetAddress implements Emptyable {
 
 	/**
 	 * Empty object constructor
